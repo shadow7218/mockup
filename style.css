@@ -1,0 +1,1040 @@
+/* ==========================================================================
+   1. DESIGN TOKENS & RESET
+   ========================================================================== */
+:root {
+  --bg-main: #f4f5f8;
+  --bg-stage: #eef0f5;
+  --surface-card: rgba(255, 255, 255, 0.82);
+  --surface-border: rgba(15, 23, 42, 0.08);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-soft: 0 20px 50px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.03);
+  
+  /* Dynamic 3D Variables controlled via JS */
+  --iphone-rot-y: 22deg;
+  --iphone-rot-x: 10deg;
+  --ipad-rot-y: -20deg;
+  --ipad-rot-x: 10deg;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(79, 70, 229, 0.07) 0px, transparent 50%),
+    radial-gradient(at 90% 20%, rgba(14, 165, 233, 0.07) 0px, transparent 50%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. HEADER & NAVIGATION
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(244, 245, 248, 0.8);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.header-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #818cf8);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+}
+
+.brand-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 7px;
+  border-radius: 99px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.header-tagline {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--text-primary);
+  border-color: var(--surface-border);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--surface-border);
+}
+
+.btn-ghost:hover {
+  background: rgba(15, 23, 42, 0.04);
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   3. SHOWCASE STAGE (SPLIT SCREEN 3D MOCKUPS)
+   ========================================================================== */
+.main-container {
+  max-width: 1360px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  flex: 1;
+}
+
+.showcase-stage {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 24px;
+  background: var(--bg-stage);
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 0);
+  background-size: 24px 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--surface-border);
+  padding: 36px 24px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+/* Swap Order Modifier */
+.showcase-stage.swapped {
+  grid-template-columns: 1.25fr 1fr;
+}
+
+.showcase-stage.swapped #iphoneStage {
+  order: 2;
+}
+
+.showcase-stage.swapped #ipadStage {
+  order: 1;
+}
+
+/* Single Focus Modifiers */
+.showcase-stage.focus-iphone {
+  grid-template-columns: 1fr;
+}
+.showcase-stage.focus-iphone #ipadStage {
+  display: none;
+}
+
+.showcase-stage.focus-ipad {
+  grid-template-columns: 1fr;
+}
+.showcase-stage.focus-ipad #iphoneStage {
+  display: none;
+}
+
+.stage-half {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 540px;
+}
+
+.stage-label {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(8px);
+}
+
+/* ==========================================================================
+   4. CSS 3D HARDWARE FRAMES (iPhone & iPad)
+   ========================================================================== */
+.scene {
+  perspective: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.device {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+/* Floating Micro-animation */
+@keyframes floatIphone {
+  0%, 100% { transform: rotateY(var(--iphone-rot-y)) rotateX(var(--iphone-rot-x)) translateY(0px); }
+  50% { transform: rotateY(var(--iphone-rot-y)) rotateX(var(--iphone-rot-x)) translateY(-8px); }
+}
+
+@keyframes floatIpad {
+  0%, 100% { transform: rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x)) translateY(0px); }
+  50% { transform: rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x)) translateY(-8px); }
+}
+
+.iphone {
+  width: 248px;
+  height: 506px;
+  border-radius: 44px;
+  transform: rotateY(var(--iphone-rot-y)) rotateX(var(--iphone-rot-x));
+}
+
+.ipad {
+  width: 430px;
+  height: 560px;
+  border-radius: 34px;
+  transform: rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x));
+}
+
+.iphone.floating {
+  animation: floatIphone 6s ease-in-out infinite;
+}
+
+.ipad.floating {
+  animation: floatIpad 6.5s ease-in-out infinite;
+}
+
+/* Frame Finishes (Space Gray, Silver, Gold) */
+.device.frame-space-gray {
+  --frame-edge: linear-gradient(145deg, #3c3d42, #18181b 55%, #2d2e33);
+  --frame-side: #27272a;
+  --bezel-border: #52525b;
+  --btn-color: #3f3f46;
+}
+
+.device.frame-silver {
+  --frame-edge: linear-gradient(145deg, #ffffff, #d4d4d8 55%, #f4f4f5);
+  --frame-side: #d4d4d8;
+  --bezel-border: #e4e4e7;
+  --btn-color: #a1a1aa;
+}
+
+.device.frame-gold {
+  --frame-edge: linear-gradient(145deg, #f5ebe0, #c8b094 55%, #e6d5c3);
+  --frame-side: #cbb499;
+  --bezel-border: #ebd9c8;
+  --btn-color: #b59d82;
+}
+
+/* 3D Side Extrusion / Backplate */
+.device-back {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--frame-edge);
+  transform: translateZ(-12px);
+  box-shadow: 
+    0 35px 65px -15px rgba(15, 23, 42, 0.42),
+    0 15px 30px -10px rgba(15, 23, 42, 0.25),
+    0 0 0 1px rgba(255,255,255,0.15);
+  transition: background 0.3s ease;
+}
+
+/* Simulated 3D Rim Thickness */
+.device::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--frame-edge);
+  transform: translateZ(-6px);
+  box-shadow: 0 0 0 2px var(--frame-side);
+}
+
+.device-bezel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #09090b;
+  padding: 10px;
+  border: 2.5px solid var(--bezel-border);
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  transform: translateZ(0px);
+}
+
+.ipad .device-bezel {
+  padding: 14px;
+}
+
+.ipad-camera-dot {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1e293b;
+  border: 1px solid #334155;
+  z-index: 10;
+}
+
+/* Hardware Side Buttons */
+.hw-btn {
+  position: absolute;
+  background: var(--btn-color);
+  border-radius: 3px;
+  transform: translateZ(-5px);
+}
+
+.silent-switch { left: -3px; top: 92px; width: 3px; height: 18px; }
+.vol-up        { left: -3px; top: 126px; width: 3px; height: 34px; }
+.vol-down      { left: -3px; top: 168px; width: 3px; height: 34px; }
+.power-btn     { right: -3px; top: 140px; width: 3px; height: 50px; }
+
+.ipad-top-btn  { top: -3px; right: 42px; width: 26px; height: 3px; }
+.ipad-vol-up   { right: -3px; top: 52px; width: 3px; height: 26px; }
+.ipad-vol-down { right: -3px; top: 86px; width: 3px; height: 26px; }
+
+/* ==========================================================================
+   5. SCREEN & iOS LOCK SCREEN UI
+   ========================================================================== */
+.device-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 34px;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  user-select: none;
+}
+
+.ipad .device-screen {
+  border-radius: 22px;
+}
+
+/* Wallpaper Layer & Presets */
+.screen-wallpaper {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: background 0.4s ease;
+  z-index: 1;
+}
+
+.preset-1 {
+  background-image: 
+    radial-gradient(at 20% 15%, #818cf8 0px, transparent 55%),
+    radial-gradient(at 85% 25%, #c084fc 0px, transparent 55%),
+    radial-gradient(at 50% 85%, #3b82f6 0px, transparent 60%),
+    linear-gradient(160deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+}
+
+.preset-2 {
+  background-image: 
+    radial-gradient(at 75% 20%, #fb923c 0px, transparent 50%),
+    radial-gradient(at 20% 70%, #f43f5e 0px, transparent 55%),
+    linear-gradient(165deg, #1c1917 0%, #431407 55%, #7c2d12 100%);
+}
+
+.preset-3 {
+  background-image: 
+    radial-gradient(at 20% 20%, #34d399 0px, transparent 50%),
+    radial-gradient(at 80% 75%, #06b6d4 0px, transparent 55%),
+    linear-gradient(160deg, #022c22 0%, #064e3b 50%, #0f172a 100%);
+}
+
+.preset-4 {
+  background-image: 
+    radial-gradient(at 50% 0%, #334155 0px, transparent 65%),
+    linear-gradient(180deg, #09090b 0%, #18181b 60%, #27272a 100%);
+}
+
+.preset-5 {
+  background-image: 
+    radial-gradient(at 15% 20%, #ec4899 0px, transparent 50%),
+    radial-gradient(at 85% 80%, #6366f1 0px, transparent 55%),
+    linear-gradient(145deg, #2e1065 0%, #4c0519 55%, #09090b 100%);
+}
+
+.preset-6 {
+  background-image: 
+    radial-gradient(at 80% 15%, #fde68a 0px, transparent 50%),
+    radial-gradient(at 20% 80%, #fca5a5 0px, transparent 55%),
+    linear-gradient(160deg, #451a03 0%, #78350f 50%, #292524 100%);
+}
+
+/* Full Screen Custom Uploaded Image */
+.custom-screen-override {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 4;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Lock Screen Layout */
+.lock-screen-ui {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 16px 8px;
+}
+
+.ipad-ui {
+  padding: 14px 24px 10px;
+}
+
+/* Status Bar & Dynamic Island */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  min-height: 22px;
+}
+
+.carrier {
+  opacity: 0.92;
+  padding-left: 2px;
+}
+
+.dynamic-island {
+  width: 68px;
+  height: 19px;
+  background: #000;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.island-camera {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1e3a8a 20%, #090d16 70%);
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.battery-pct {
+  font-size: 0.62rem;
+}
+
+/* Clock & Date Header */
+.lock-header {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: auto;
+}
+
+.ipad-ui .lock-header {
+  margin-top: 22px;
+}
+
+.lock-icon {
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+
+.lock-date {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.ipad-ui .lock-date {
+  font-size: 0.95rem;
+}
+
+.lock-clock {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 3.65rem;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-top: 2px;
+  background: linear-gradient(180deg, #ffffff 15%, rgba(255, 255, 255, 0.78) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25));
+}
+
+.ipad-ui .lock-clock {
+  font-size: 4.8rem;
+}
+
+/* Notification Glass Pill */
+.lock-notification {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  padding: 9px 11px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.ipad-ui .lock-notification {
+  max-width: 280px;
+  width: 100%;
+  margin: 0 auto 18px;
+}
+
+.notif-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.22);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.notif-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-sub {
+  font-size: 0.6rem;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-time {
+  font-size: 0.56rem;
+  opacity: 0.7;
+  align-self: flex-start;
+}
+
+/* Bottom Lock Screen Icons (Flashlight & Camera) */
+.lock-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcut-Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  transition: opacity 0.25s ease;
+}
+
+.ios-shortcut-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(20, 20, 25, 0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ios-shortcut-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.home-indicator {
+  width: 88px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 99px;
+  margin: 0 auto;
+}
+
+/* Subtle Diagonal Glass Reflection */
+.screen-glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.03) 35%, transparent 45%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ==========================================================================
+   6. GLASSMORPHIC CUSTOMIZATION PANEL
+   ========================================================================== */
+.control-panel {
+  background: var(--surface-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--surface-border);
+  margin-bottom: 24px;
+}
+
+.panel-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.panel-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.panel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Segmented View Switcher */
+.segmented-control {
+  display: inline-flex;
+  background: #eef0f5;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--surface-border);
+}
+
+.seg-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seg-btn.active {
+  background: #fff;
+  color: var(--text-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Grid of Control Cards */
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+.control-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.badge-subtle {
+  font-size: 0.7rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 8px;
+  border-radius: 99px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Wallpaper Swatches */
+.swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.1);
+}
+
+.swatch.active {
+  box-shadow: 0 0 0 2px var(--accent), 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+/* File Upload Buttons */
+.upload-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.file-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  border: 1px dashed rgba(15, 23, 42, 0.2);
+  background: #fff;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.file-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.file-btn-accent {
+  border-style: solid;
+  border-color: rgba(79, 70, 229, 0.25);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+/* Inputs & Sliders */
+.input-stack, .slider-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field-group label, .slider-header label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.text-input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--surface-border);
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+}
+
+.range-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Hardware Finish Picker */
+.color-picker-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.frame-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--surface-border);
+  background: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.frame-swatch .dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.frame-swatch.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Toggles & Checkboxes */
+.toggles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox-row input {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+}
+
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.toggle-switch input {
+  accent-color: var(--accent);
+}
+
+.toggle-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   7. MOBILE & TABLET RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .showcase-stage,
+  .showcase-stage.swapped {
+    grid-template-columns: 1fr;
+    padding: 28px 16px;
+  }
+
+  .header-tagline {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-container {
+    padding: 14px;
+  }
+
+  .stage-half {
+    min-height: 460px;
+  }
+
+  /* Scale down iPad smoothly to fit mobile screens */
+  .ipad {
+    transform: scale(0.72) rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x));
+  }
+
+  @keyframes floatIpad {
+    0%, 100% { transform: scale(0.72) rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x)) translateY(0px); }
+    50% { transform: scale(0.72) rotateY(var(--ipad-rot-y)) rotateX(var(--ipad-rot-x)) translateY(-8px); }
+  }
+
+  .control-panel {
+    padding: 18px;
+  }
+
+  .upload-group {
+    grid-template-columns: 1fr;
+  }
+}
